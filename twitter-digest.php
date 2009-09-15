@@ -63,6 +63,11 @@ function ws_deactivate_digest() {
 // 6 -> Post created but not published until later
 function ws_ping_twitter($demand) {
 
+    $date = strtotime('now');
+    $dateStr = date('N', $date);
+    if ( $dateStr != '1' ) {
+        return 2;
+    }
   // Has there been enough time since the last check? This avoids a race
   // condition which would produce a duplicate post.
   $last = get_option('ws_td_last_check');
@@ -77,7 +82,7 @@ function ws_ping_twitter($demand) {
   }
   
   // Determine the date.  We always look for yesterday's tweets
-  $date = strtotime('-1 day');
+  $date = strtotime('-7 day');
   $dateStr = date('Y-m-d', $date);
   
   // Get the last tweet id
